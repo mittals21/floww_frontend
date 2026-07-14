@@ -37,7 +37,8 @@ const PipelineToolbar = () => {
   const handleSave = async () => {
     if (!workflow) return
 
-    await updateWorkflow(workflow.id, {
+    await updateWorkflow({
+      workflowId: workflow.id,
       name: workflow.name,
       description: workflow.description,
       nodes,
@@ -56,24 +57,38 @@ const PipelineToolbar = () => {
   return (
     <div className="border-b border-border-dark bg-surface-dark">
       <div className="flex items-center justify-between px-6 py-4">
-        <div className="flex items-center gap-4">
+        <div className="flex items-start gap-4">
           <Link
             to="/"
-            className="text-sm text-text-dark-secondary hover:text-white"
+
+            className="rounded-xl border border-border-dark bg-surface-dark px-4 py-2.5 transition hover:-translate-y-0.5 hover:border-primary-500 hover:bg-surface-dark-secondary duration-200 text-sm text-text-dark-secondary hover:text-white"
           >
-            ← Dashboard
+            ←
           </Link>
 
-          <input
-            value={workflow?.name ?? ""}
-            onChange={(e) =>
-              setWorkflowData({
-                name: e.target.value,
-              })
-            }
-            placeholder="Untitled Workflow"
-            className="w-72 rounded-lg border border-border-dark bg-background-dark-secondary px-4 py-2 outline-none focus:border-primary-500 text-neutral-100"
-          />
+          <div className="flex flex-col gap-2">
+            <input
+              value={workflow?.name ?? ""}
+              onChange={(e) =>
+                setWorkflowData({
+                  name: e.target.value,
+                })
+              }
+              placeholder="Untitled Workflow"
+              className="w-80 rounded-lg border border-border-dark bg-background-dark-secondary px-4 py-2 text-neutral-100 outline-none transition focus:border-primary-500"
+            />
+
+            <input
+              value={workflow?.description ?? ""}
+              onChange={(e) =>
+                setWorkflowData({
+                  description: e.target.value,
+                })
+              }
+              placeholder="Add a description..."
+              className="w-80 rounded-lg border border-border-dark bg-background-dark-secondary px-4 py-2 text-sm text-neutral-300 outline-none transition focus:border-primary-500 placeholder:text-text-dark-secondary"
+            />
+          </div>
         </div>
 
         <div className="flex gap-3">

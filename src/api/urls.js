@@ -7,8 +7,8 @@ export const authUrls = {
 
 export const workflowUrls = {
   getAll: "/workflow/all",
-  getOne: (workflowId) => `/workflow/${workflowId}`,
+  getSingle: (workflowId) => `/workflow/${workflowId}`,
   create: "/workflow/create",
   update: "/workflow/update",
-  delete: (workflowId) => `/workflow/${workflowId}`,
+  delete: (workflowId) => `/workflow/delete/${workflowId}`,
 }

@@ -1,5 +1,6 @@
 import { create } from "zustand"
-import * as authApi from "../api/auth.api"
+import apiClient from "../api/client"
+import { authUrls } from "../api/urls"
 
 const useAuthStore = create((set) => ({
   user: null,
@@ -11,7 +12,9 @@ const useAuthStore = create((set) => ({
     set({ isLoading: true })
 
     try {
-      const { user } = await authApi.login(credentials)
+      const {
+        data: { user },
+      } = await apiClient.post(authUrls.login, credentials)
 
       set({
         user,
@@ -28,7 +31,9 @@ const useAuthStore = create((set) => ({
     set({ isLoading: true })
 
     try {
-      return await authApi.register(data)
+      const { data: response } = await apiClient.post(authUrls.register, data)
+
+      return response
     } finally {
       set({ isLoading: false })
     }
@@ -38,7 +43,7 @@ const useAuthStore = create((set) => ({
     set({ isLoading: true })
 
     try {
-      await authApi.logout()
+      await apiClient.post(authUrls.logout)
 
       set({
         user: null,
@@ -51,7 +56,9 @@ const useAuthStore = create((set) => ({
 
   getMe: async () => {
     try {
-      const { user } = await authApi.getMe()
+      const {
+        data: { user },
+      } = await apiClient.get(authUrls.me)
 
       set({
         user,

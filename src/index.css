@@ -90,7 +90,6 @@
   --color-text-dark-secondary: #9ca3af;
 }
 
-
 @layer base {
   html,
   body,
@@ -158,11 +157,11 @@ input[type="number"] {
 }
 
 .react-flow__controls {
-  @apply rounded-xl border border-border-dark bg-surface-dark shadow-lg;
+  @apply rounded-lg border border-border-dark bg-surface-dark shadow-lg;
 }
 
 .react-flow__controls-button {
-  @apply border-border-dark bg-surface-dark text-text-dark transition;
+  @apply border-border-dark rounded-lg bg-surface-dark text-text-dark transition;
 }
 
 .react-flow__controls-button:hover {
@@ -170,7 +169,7 @@ input[type="number"] {
 }
 
 .react-flow__minimap {
-  @apply rounded-xl border border-border-dark bg-surface-dark shadow-lg;
+  @apply  border border-border-dark bg-surface-dark shadow-lg;
 }
 
 .react-flow__attribution {

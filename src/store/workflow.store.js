@@ -5,20 +5,12 @@ import {
   MarkerType,
 } from "@xyflow/react"
 import { create } from "zustand"
-import {
-  createWorkflow,
-  deleteWorkflow,
-  getAllWorkflows,
-  getWorkflow,
-  updateWorkflow,
-} from "../api/workflow.api"
 import { buildNodeIDs } from "../utils/getNodeId"
+import { toast } from "sonner"
+import apiClient from "../api/client"
+import { workflowUrls } from "../api/urls"
 
 export const useWorkflowStore = create((set, get) => ({
-  // -------------------------
-  // State
-  // -------------------------
-
   workflows: [],
   selectedWorkflow: null,
   isLoading: false,
@@ -26,10 +18,6 @@ export const useWorkflowStore = create((set, get) => ({
   nodes: [],
   edges: [],
   nodeIDs: {},
-
-  // -------------------------
-  // Canvas Actions
-  // -------------------------
 
   getNodeID: (type) => {
     const newIDs = { ...get().nodeIDs }
@@ -114,10 +102,12 @@ export const useWorkflowStore = create((set, get) => ({
     set({ isLoading: true })
 
     try {
-      const { workflows } = await getAllWorkflows(params)
+      const res = await apiClient.get(workflowUrls.getAll, {
+        params,
+      })
 
       set({
-        workflows,
+        workflows: res.data.workflows,
       })
     } finally {
       set({ isLoading: false })
@@ -128,7 +118,9 @@ export const useWorkflowStore = create((set, get) => ({
     set({ isLoading: true })
 
     try {
-      const { workflow } = await getWorkflow(id)
+      const {
+        data: { workflow },
+      } = await apiClient.get(workflowUrls.getSingle(id))
 
       set({
         selectedWorkflow: workflow,
@@ -144,7 +136,9 @@ export const useWorkflowStore = create((set, get) => ({
   },
 
   createWorkflow: async () => {
-    const { workflowId } = await createWorkflow({
+    const {
+      data: { workflowId, message },
+    } = await apiClient.post(workflowUrls.create, {
       name: "Untitled Workflow",
       description: "",
       nodes: [],
@@ -152,16 +146,21 @@ export const useWorkflowStore = create((set, get) => ({
     })
 
     await get().getAllWorkflows()
+    toast.success(message)
 
     return workflowId
   },
 
-  updateWorkflow: async (id, data) => {
-    await updateWorkflow(id, data)
+  updateWorkflow: async (data) => {
+    const {
+      data: { message },
+    } = await apiClient.post(workflowUrls.update, data)
+
+    toast.success(message)
 
     set((state) => ({
       selectedWorkflow:
-        state.selectedWorkflow?.id === id
+        state.selectedWorkflow?.id === data.id
           ? {
               ...state.selectedWorkflow,
               ...data,
@@ -171,7 +170,11 @@ export const useWorkflowStore = create((set, get) => ({
   },
 
   deleteWorkflow: async (id) => {
-    await deleteWorkflow(id)
+    const {
+      data: { message },
+    } = await apiClient.delete(workflowUrls.delete(id))
+
+    toast.success(message)
 
     set((state) => ({
       workflows: state.workflows.filter((workflow) => workflow.id !== id),

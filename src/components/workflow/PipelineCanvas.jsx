@@ -46,9 +46,7 @@ const PipelineCanvas = () => {
   return (
     <div
       ref={wrapperRef}
-      className="bg-background-dark"
-
-      style={{ width: "100vw", height: "80vh" }}
+      className="h-screen w-full overflow-hidden bg-background-dark"
     >
       <ReactFlow
         nodes={nodes}
@@ -78,14 +76,11 @@ const PipelineCanvas = () => {
           zoomable
           className="bg-surface-dark border border-border-dark"
           nodeColor="#7c3aed"
-          maskColor="rgba(2,6,23,0.75)
-          "
+          maskColor="rgba(2,6,23,0.75)"
           position="top-right"
         />
 
         <Controls
-          showInteractive={false}
-          className="border border-border-dark bg-surface-dark"
           position="top-left"
         />
       </ReactFlow>
