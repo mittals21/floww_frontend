@@ -1,16 +1,21 @@
 import { useRef, useState } from "react"
-import { useWorkflowStore } from "../../store/workflow.store"
-import { shallow } from "zustand/shallow"
-import { InputNode } from "../../nodes/InputNode"
-import { LLMNode } from "../../nodes/LLMNode"
-import { OutputNode } from "../../nodes/OutputNode"
-import { TextNode } from "../../nodes/TextNode"
+import {
+  Background,
+  Controls,
+  MiniMap,
+  ReactFlow,
+  BackgroundVariant,
+} from "@xyflow/react"
+
+import { InputNode } from "../nodes/InputNode"
+import { LLMNode } from "../nodes/LLMNode"
+import { OutputNode } from "../nodes/OutputNode"
+import { TextNode } from "../nodes/TextNode"
+
 import { usePipelineDragDrop } from "../../hooks/usePipelineDragDrop"
-import { Background, Controls, MiniMap, ReactFlow } from "@xyflow/react"
+import { useWorkflowStore } from "../../store/workflow.store"
 
-const gridSize = 20
-
-const proOptions = { hideAttribution: true }
+const GRID_SIZE = 20
 
 const nodeTypes = {
   customInput: InputNode,
@@ -19,10 +24,10 @@ const nodeTypes = {
   text: TextNode,
 }
 
-export function PipelineCanvas() {
+const PipelineCanvas = () => {
   const wrapperRef = useRef(null)
 
-  const [reactFlow, setReactFlow] = useState(null)
+  const [reactFlowInstance, setReactFlowInstance] = useState(null)
 
   const nodes = useWorkflowStore((state) => state.nodes)
   const edges = useWorkflowStore((state) => state.edges)
@@ -33,33 +38,59 @@ export function PipelineCanvas() {
   const onConnect = useWorkflowStore((state) => state.onConnect)
 
   const { onDrop, onDragOver } = usePipelineDragDrop({
-    reactFlow,
+    reactFlow: reactFlowInstance,
     getNodeID,
     addNode,
   })
 
   return (
-    <>
-      <div ref={wrapperRef} style={{ width: "100vw", height: "70vh" }}>
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          onDrop={onDrop}
-          onDragOver={onDragOver}
-          onInit={setReactFlow}
-          nodeTypes={nodeTypes}
-          proOptions={proOptions}
-          snapGrid={[gridSize, gridSize]}
-          connectionLineType="smoothstep"
-        >
-          <Background color="#aaa" gap={gridSize} />
-          <Controls />
-          <MiniMap />
-        </ReactFlow>
-      </div>
-    </>
+    <div
+      ref={wrapperRef}
+      className="bg-background-dark"
+
+      style={{ width: "100vw", height: "80vh" }}
+    >
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        nodeTypes={nodeTypes}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        onDrop={onDrop}
+        onDragOver={onDragOver}
+        onInit={setReactFlowInstance}
+        snapToGrid
+        snapGrid={[GRID_SIZE, GRID_SIZE]}
+        connectionLineType="smoothstep"
+        proOptions={{ hideAttribution: true }}
+        className="bg-background-dark"
+      >
+        <Background
+          variant={BackgroundVariant.Dots}
+          gap={24}
+          size={1.5}
+          color="#334155"
+        />
+
+        <MiniMap
+          pannable
+          zoomable
+          className="bg-surface-dark border border-border-dark"
+          nodeColor="#7c3aed"
+          maskColor="rgba(2,6,23,0.75)
+          "
+          position="top-right"
+        />
+
+        <Controls
+          showInteractive={false}
+          className="border border-border-dark bg-surface-dark"
+          position="top-left"
+        />
+      </ReactFlow>
+    </div>
   )
 }
+
+export default PipelineCanvas

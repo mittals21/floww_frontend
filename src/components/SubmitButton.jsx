@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useWorkflowStore } from "../store/workflow.store"
 
-export const SubmitButton = () => {
+const SubmitButton = () => {
   const nodes = useWorkflowStore((state) => state.nodes)
   const edges = useWorkflowStore((state) => state.edges)
 
@@ -33,3 +33,5 @@ export const SubmitButton = () => {
     </div>
   )
 }
+
+export default SubmitButton

@@ -6,32 +6,15 @@ export function DraggableNode({ type, label }) {
     )
 
     event.dataTransfer.effectAllowed = "move"
-    event.currentTarget.style.cursor = "grabbing"
-  }
-
-  const handleDragEnd = (event) => {
-    event.currentTarget.style.cursor = "grab"
   }
 
   return (
     <div
-      className={type}
       draggable
       onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      style={{
-        cursor: "grab",
-        minWidth: 80,
-        height: 60,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "column",
-        borderRadius: 8,
-        backgroundColor: "#1C2536",
-      }}
+      className="flex h-16 min-w-24 cursor-grab items-center justify-center rounded-lg border border-border-dark bg-background-dark-secondary transition hover:border-primary-500"
     >
-      <span style={{ color: "#fff" }}>{label}</span>
+      <span className="text-sm font-medium text-text-dark">{label}</span>
     </div>
   )
 }

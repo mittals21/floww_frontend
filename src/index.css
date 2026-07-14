@@ -1,13 +1,192 @@
-body {
-  margin: 0;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
-    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"); */
+
+@import "tailwindcss";
+/* @plugin "@tailwindcss/typography"; */
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Screens */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  /* Border radius */
+  --radius-none: 0px;
+  --radius-1: 2px;
+  --radius-2: 4px;
+  --radius-3: 6px;
+  --radius-4: 8px;
+  --radius-5: 10px;
+  --radius-6: 12px;
+  --radius-7: 16px;
+  --radius-full: 999px;
+
+  /* Border width */
+  --border-1: 1px;
+  --border-2: 1.5px;
+  --border-3: 2px;
+  --border-4: 4px;
+
+  /* Background */
+  --color-background: #ffffff;
+  --color-background-secondary: #f8fafc;
+  --color-background-tertiary: #f1f5f9;
+
+  /* Dark Background */
+  --color-background-dark: #020617;
+  --color-background-dark-secondary: #0f172a;
+  --color-background-dark-tertiary: #1e293b;
+
+  /* Primary */
+  /* Brand */
+--color-primary-50: #fff2f7;
+--color-primary-100: #ffe5ef;
+--color-primary-200: #ffc8db;
+--color-primary-300: #ff9fc1;
+--color-primary-400: #ff7ba9;
+--color-primary-500: #ff6392;
+--color-primary-600: #f24d82;
+--color-primary-700: #d9366c;
+--color-primary-800: #b82758;
+--color-primary-900: #8f1e45;
+
+  /* Colors - Red */
+  --color-red-100: #e98a93;
+  --color-red-200: #d00416;
+  --color-red-300: #9d010e;
+  --color-red-10: #fb37481a;
+
+  /* Colors - Yellow */
+  --color-yellow-100: #ffdb43;
+  --color-yellow-200: #b99402;
+  --color-yellow-300: #957700;
+  --color-yellow-10: #ffdb431a;
+
+  /* Colors - Green */
+  --color-green-100: #46e38f;
+  --color-green-200: #068843;
+  --color-green-300: #036431;
+  --color-green-10: #1fc16b1a;
+
+  /* Surface */
+  --color-surface: #ffffff;
+  --color-surface-secondary: #f8fafc;
+
+  --color-surface-dark: #111827;
+  --color-surface-dark-secondary: #1f2937;
+
+  /* Border */
+  --color-border: #e5e7eb;
+  --color-border-dark: #374151;
+
+  /* Text */
+  --color-text: #111827;
+  --color-text-secondary: #6b7280;
+
+  --color-text-dark: #f9fafb;
+  --color-text-dark-secondary: #9ca3af;
 }
 
-code {
-  font-family:
-    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+    width: 100%;
+  }
+
+  html {
+    @apply font-sans;
+  }
+
+  body {
+    @apply bg-background-dark text-text-dark;
+  }
+
+  .dark body {
+    @apply bg-gray-950 text-gray-100;
+  }
+
+  * {
+    @apply box-border;
+  }
+
+  button {
+    @apply cursor-pointer;
+  }
+
+  input,
+  textarea,
+  select {
+    @apply outline-none;
+  }
+}
+
+/* Remove number input arrows */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  appearance: textfield;
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-gray-300;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  @apply bg-gray-700;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.react-flow__controls {
+  @apply rounded-xl border border-border-dark bg-surface-dark shadow-lg;
+}
+
+.react-flow__controls-button {
+  @apply border-border-dark bg-surface-dark text-text-dark transition;
+}
+
+.react-flow__controls-button:hover {
+  @apply bg-background-dark-secondary;
+}
+
+.react-flow__minimap {
+  @apply rounded-xl border border-border-dark bg-surface-dark shadow-lg;
+}
+
+.react-flow__attribution {
+  display: none;
+}
+
+.react-flow__edge-path {
+  stroke: #8b5cf6;
+  stroke-width: 2;
+}
+
+.react-flow__connection-path {
+  stroke: #8b5cf6;
+  stroke-width: 2;
+}
+
+.react-flow__selection {
+  @apply border-primary-500 bg-primary-500/10;
 }

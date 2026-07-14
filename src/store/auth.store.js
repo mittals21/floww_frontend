@@ -1,17 +1,73 @@
 import { create } from "zustand"
+import * as authApi from "../api/auth.api"
 
-export const useAuthStore = create((set, get) => ({
-  // State
+const useAuthStore = create((set) => ({
   user: null,
+  isInitializing: true,
   isAuthenticated: false,
   isLoading: false,
 
-  // Auth Actions
-  login: async () => {},
+  login: async (credentials) => {
+    set({ isLoading: true })
 
-  register: async () => {},
+    try {
+      const { user } = await authApi.login(credentials)
 
-  logout: async () => {},
+      set({
+        user,
+        isAuthenticated: true,
+      })
 
-  getCurrentUser: async () => {},
+      return user
+    } finally {
+      set({ isLoading: false })
+    }
+  },
+
+  register: async (data) => {
+    set({ isLoading: true })
+
+    try {
+      return await authApi.register(data)
+    } finally {
+      set({ isLoading: false })
+    }
+  },
+
+  logout: async () => {
+    set({ isLoading: true })
+
+    try {
+      await authApi.logout()
+
+      set({
+        user: null,
+        isAuthenticated: false,
+      })
+    } finally {
+      set({ isLoading: false })
+    }
+  },
+
+  getMe: async () => {
+    try {
+      const { user } = await authApi.getMe()
+
+      set({
+        user,
+        isAuthenticated: true,
+      })
+    } catch {
+      set({
+        user: null,
+        isAuthenticated: false,
+      })
+    } finally {
+      set({
+        isInitializing: false,
+      })
+    }
+  },
 }))
+
+export default useAuthStore
