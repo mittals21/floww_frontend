@@ -15,7 +15,7 @@ const BaseNode = ({
           position={Position.Left}
           id={handle.id}
           style={handle.style}
-          className="h-3 w-3 border-2 border-surface-dark bg-primary-500"
+          className="h-3! w-3! border-2! border-primary-500! bg-primary-200!"
         />
       ))}
 
@@ -26,7 +26,7 @@ const BaseNode = ({
           position={Position.Right}
           id={handle.id}
           style={handle.style}
-          className="h-3 w-3 border-2 border-surface-dark bg-primary-500"
+          className="h-3! w-3! border-2! border-primary-500! bg-primary-200!"
         />
       ))}
 
