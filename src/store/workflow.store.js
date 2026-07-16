@@ -15,6 +15,10 @@ export const useWorkflowStore = create((set, get) => ({
   selectedWorkflow: null,
   isLoading: false,
 
+  isExecuting: false,
+  executionResult: null,
+  executionTime: null,
+
   nodes: [],
   edges: [],
   nodeIDs: {},
@@ -179,5 +183,35 @@ export const useWorkflowStore = create((set, get) => ({
     set((state) => ({
       workflows: state.workflows.filter((workflow) => workflow.id !== id),
     }))
+  },
+
+  runWorkflow: async (workflowId) => {
+    set({
+      isExecuting: true,
+      executionResult: null,
+    })
+
+    try {
+      const {
+        data: { message, output, executionTime },
+      } = await apiClient.post(workflowUrls.runWorkflow(workflowId))
+
+      toast.success(message)
+
+      set({
+        executionResult: output,
+        executionTime,
+      })
+
+      return {
+        message,
+        output,
+        executionTime,
+      }
+    } finally {
+      set({
+        isExecuting: false,
+      })
+    }
   },
 }))

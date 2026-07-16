@@ -20,8 +20,8 @@ export const InputNode = ({ id, data }) => {
           </label>
 
           <input
-            value={data.inputName ?? ""}
-            onChange={(e) => updateNodeField(id, "inputName", e.target.value)}
+            value={data.value ?? ""}
+            onChange={(e) => updateNodeField(id, "value", e.target.value)}
             className="w-full rounded-lg border border-border-dark bg-background-dark px-3 py-2 text-sm text-text-dark"
           />
         </div>

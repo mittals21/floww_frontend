@@ -11,4 +11,5 @@ export const workflowUrls = {
   create: "/workflow/create",
   update: "/workflow/update",
   delete: (workflowId) => `/workflow/delete/${workflowId}`,
+  runWorkflow: (workflowId) => `/execute/${workflowId}/run`,
 }

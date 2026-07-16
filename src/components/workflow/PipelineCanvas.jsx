@@ -44,11 +44,14 @@ const PipelineCanvas = () => {
   })
 
   return (
-    <div
-      ref={wrapperRef}
-      className="h-screen w-full overflow-hidden bg-background-dark"
-    >
+    // <div
+    //   ref={wrapperRef}
+    //   className="h-screen w-full overflow-hidden bg-background-dark"
+    // >
+
+    <div ref={wrapperRef} className="h-full w-full bg-gray-950">
       <ReactFlow
+        colorMode="dark"
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
@@ -63,6 +66,12 @@ const PipelineCanvas = () => {
         connectionLineType="smoothstep"
         proOptions={{ hideAttribution: true }}
         className="bg-background-dark"
+        defaultEdgeOptions={{
+          style: {
+            stroke: "#ff6392",
+            strokeWidth: 2,
+          },
+        }}
       >
         <Background
           variant={BackgroundVariant.Dots}
@@ -75,14 +84,16 @@ const PipelineCanvas = () => {
           pannable
           zoomable
           className="bg-surface-dark border border-border-dark"
-          nodeColor="#7c3aed"
+          nodeColor="#ff6392"
           maskColor="rgba(2,6,23,0.75)"
           position="top-right"
         />
 
-        <Controls
-          position="top-left"
-        />
+        {/* <MiniMap pannable zoomable className="bg-gray-900" /> */}
+
+        <Controls position="top-left" />
+
+        {/* <Controls className="border border-gray-700 bg-gray-900" /> */}
       </ReactFlow>
     </div>
   )
