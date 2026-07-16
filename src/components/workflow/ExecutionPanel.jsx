@@ -5,7 +5,7 @@ const ExecutionPanel = () => {
   const executionTime = useWorkflowStore((state) => state.executionTime)
 
   return (
-    <div className="h-64 border-t border-gray-800 bg-gray-900">
+    <div className="flex h-full flex-col bg-gray-900">
       <div className="flex items-center justify-between border-b border-gray-800 px-5 py-3">
         <h2 className="font-semibold">Execution Result</h2>
 
@@ -14,7 +14,7 @@ const ExecutionPanel = () => {
         )}
       </div>
 
-      <div className="h-[calc(100%-53px)] overflow-y-auto p-5">
+      <div className="flex-1 overflow-y-auto p-5">
         {executionResult ? (
           <pre className="whitespace-pre-wrap text-sm leading-7 text-gray-300">
             {executionResult}
